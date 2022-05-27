@@ -111,29 +111,52 @@ deleteButton.addEventListener("click", function() {
 plusButton.addEventListener("click", function() {
    plusOp = true;
    total += parseInt(ioScreen.value);
-   ioScreen.value = "0";
+   ioScreen.value = "+";
 })
 
 multyButton.addEventListener("click", function() {
     multyOp = true;
     total = 1;
     total *= parseInt(ioScreen.value);
-    ioScreen.value = "0";
+    ioScreen.value = "X";
 })
 
 minusButton.addEventListener("click", function() {
-
+    if(multyOp) {
+        minusOp = true;
+    }
+    else {
+        minusOp = true;
+        //if we don't have any value in total, the value will be add in it
+        if(total === 0)
+        {
+            total += parseInt(ioScreen.value);
+        }
+        else{
+            total -= parseInt(ioScreen.value);
+        }
+    }
+    ioScreen.value = "-";
 })
 
 equalButton.addEventListener("click", function() {
     if(plusOp) {
-        total += parseInt(ioScreen.value);
+        total += parseInt(ioScreen.value.substring(1,ioScreen.value.length));
         plusOp = false;
     }
     else if(multyOp)
     {
-        total *= parseInt(ioScreen.value);
+        total *= parseInt(ioScreen.value.substring(1,ioScreen.value.length));
+        if(minusOp) {
+            total *=-1;
+            minusOp = false;
+        }
         multyOp = false;
+    }
+    else if(minusOp)
+    {
+        total -= parseInt(ioScreen.value.substring(1,ioScreen.value.length));
+        minusOp = false;
     }
     ioScreen.value = total;
     total = 0;
