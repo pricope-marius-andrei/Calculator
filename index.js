@@ -91,7 +91,7 @@ nineButton.addEventListener("click", function(){
 })
 
 zeroButton.addEventListener("click", function() {
-    if(ioScreen.value === "0")
+    if(ioScreen.value === "0" || ioScreen.value.substring(0,1) === "-" && ioScreen.value.length === 1)
         ioScreen.value = "0";
     else
         ioScreen.value += "0";
@@ -116,46 +116,40 @@ plusButton.addEventListener("click", function() {
 
 multyButton.addEventListener("click", function() {
     multyOp = true;
-    total = 1;
-    total *= parseInt(ioScreen.value);
+    if(ioScreen.value.substring(0,1) === "X")
+        total *= parseInt(ioScreen.value.substring(1,ioScreen.value.length));
+    else 
+        total += parseInt(ioScreen.value);
     ioScreen.value = "X";
 })
 
 minusButton.addEventListener("click", function() {
-    if(multyOp) {
-        minusOp = true;
-    }
-    else {
-        minusOp = true;
-        //if we don't have any value in total, the value will be add in it
-        if(total === 0)
-        {
-            total += parseInt(ioScreen.value);
-        }
-        else{
-            total -= parseInt(ioScreen.value);
-        }
-    }
+    minusOp = true;
+    if(!multyOp)
+        total += parseInt(ioScreen.value);
     ioScreen.value = "-";
 })
 
 equalButton.addEventListener("click", function() {
     if(plusOp) {
-        total += parseInt(ioScreen.value.substring(1,ioScreen.value.length));
+        total += parseInt(ioScreen.value);
         plusOp = false;
     }
     else if(multyOp)
     {
-        total *= parseInt(ioScreen.value.substring(1,ioScreen.value.length));
-        if(minusOp) {
-            total *=-1;
+        if(minusOp && ioScreen.value.substring(0,1) !== "X")
+        {
+            total *= parseInt(ioScreen.value);
             minusOp = false;
+        }
+        else {
+            total *= parseInt(ioScreen.value.substring(1,ioScreen.value.length));
         }
         multyOp = false;
     }
     else if(minusOp)
     {
-        total -= parseInt(ioScreen.value.substring(1,ioScreen.value.length));
+        total += parseInt(ioScreen.value);
         minusOp = false;
     }
     ioScreen.value = total;
