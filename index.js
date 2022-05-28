@@ -20,6 +20,8 @@ const equalButton = document.getElementById("equalButton");
 const minusButton = document.getElementById("minusButton");
 const divButton = document.getElementById("divButton");
 const clearButton = document.getElementById("clearButton");
+const radButton = document.getElementById("radButton");
+const powButton = document.getElementById("powButton");
 
 var total = 0.0;
 var plusOp = false;
@@ -137,6 +139,43 @@ deleteButton.addEventListener("click", function() {
 
 clearButton.addEventListener("click" ,function() {
     ioScreen.value = "0";
+})
+
+radButton.addEventListener("click", function(){
+    if(minusOp)
+    {
+        ioScreen.value = "Invalid number format";
+        minusOp = false;
+    }
+    else{
+        var number;
+        if(multyOp || divOp) {
+            number = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+            if(multyOp) {
+                ioScreen.value = "X" + Math.sqrt(number);;
+            }
+            else{
+                ioScreen.value = "/" + Math.sqrt(number);;
+            }
+        }
+    }
+})
+
+powButton.addEventListener("click", function() {
+    var number;
+    if(multyOp || divOp) {
+        number = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+        if(multyOp) {
+            ioScreen.value = "X" + number * number;
+        }
+        else{
+            ioScreen.value = "/" + number * number;
+        }
+    }
+    else {
+        number = parseFloat(ioScreen.value);
+        ioScreen.value = number * number;
+    }   
 })
 
 plusButton.addEventListener("click", function() {
