@@ -12,16 +12,20 @@ const eightButton = document.getElementById("eightButton");
 const nineButton = document.getElementById("nineButton");
 const zeroButton = document.getElementById("zeroButton");
 const plusButton = document.getElementById("plusButton");
+const floatButton = document.getElementById("floatButton");
 //Operations
 const multyButton = document.getElementById("multyButton");
 const deleteButton = document.getElementById("deleteButton");
 const equalButton = document.getElementById("equalButton");
 const minusButton = document.getElementById("minusButton");
+const divButton = document.getElementById("divButton");
+const clearButton = document.getElementById("clearButton");
 
-var total = 0;
+var total = 0.0;
 var plusOp = false;
 var multyOp = false;
 var minusOp = false;
+var divOp = false;
 
 /**
  * Buttons events on click
@@ -31,7 +35,6 @@ oneButton.addEventListener("click", function() {
         ioScreen.value = "1";
     else
         ioScreen.value += "1";
-  
 })
 
 twoButton.addEventListener("click", function() {
@@ -97,6 +100,30 @@ zeroButton.addEventListener("click", function() {
         ioScreen.value += "0";
 })
 
+floatButton.addEventListener("click", function() {
+   const characters = ioScreen.value.split('');
+   var haveDigits = false;
+   var noDots = true;
+   for(let i = 0 ; i < characters.length; i++)
+   {
+       console.log(characters[i]);
+       if(Number.isInteger(parseInt(characters[i])))
+       {
+           haveDigits = true;
+       }
+
+       if(characters[i] === ".")
+       {
+           noDots = false;
+       }
+   }
+
+   if(haveDigits && noDots === true)
+   {
+       ioScreen.value += ".";
+   }
+})
+
 
 deleteButton.addEventListener("click", function() {
     var input = ioScreen.value;
@@ -108,50 +135,88 @@ deleteButton.addEventListener("click", function() {
     }
 })
 
+clearButton.addEventListener("click" ,function() {
+    ioScreen.value = "0";
+})
+
 plusButton.addEventListener("click", function() {
    plusOp = true;
-   total += parseInt(ioScreen.value);
+   total += parseFloat(ioScreen.value);
    ioScreen.value = "+";
 })
 
 multyButton.addEventListener("click", function() {
     multyOp = true;
     if(ioScreen.value.substring(0,1) === "X")
-        total *= parseInt(ioScreen.value.substring(1,ioScreen.value.length));
+        total *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
     else 
-        total += parseInt(ioScreen.value);
+        total += parseFloat(ioScreen.value);
     ioScreen.value = "X";
 })
 
 minusButton.addEventListener("click", function() {
     minusOp = true;
-    if(!multyOp)
-        total += parseInt(ioScreen.value);
+    if(!multyOp && !divOp)
+        total += parseFloat(ioScreen.value);
     ioScreen.value = "-";
+})
+
+divButton.addEventListener("click" ,function() {
+    divOp = true;
+    if(ioScreen.value.substring(0,1) === "/")
+        total /= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+    else 
+        total += parseFloat(ioScreen.value);
+    ioScreen.value = "/";
 })
 
 equalButton.addEventListener("click", function() {
     if(plusOp) {
-        total += parseInt(ioScreen.value);
+        total += parseFloat(ioScreen.value);
         plusOp = false;
     }
     else if(multyOp)
     {
         if(minusOp && ioScreen.value.substring(0,1) !== "X")
         {
-            total *= parseInt(ioScreen.value);
+            total *= parseFloat(ioScreen.value);
             minusOp = false;
         }
         else {
-            total *= parseInt(ioScreen.value.substring(1,ioScreen.value.length));
+            total *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
         }
         multyOp = false;
     }
+    else if(divOp)
+    {
+        if(minusOp && ioScreen.value.substring(0,1) !== "/")
+        {
+            if(parseFloat(ioScreen.value) === 0.0)
+            {
+                ioScreen.value = "Cannot divide by zero";
+            }
+            else {
+                total /= parseFloat(ioScreen.value);
+            }
+            minusOp = false;
+        }
+        else {
+            if(parseFloat(ioScreen.value.substring(1,ioScreen.value.length)) === 0.0)
+            {
+                ioScreen.value = "Cannot divide by zero";
+            }
+            else {
+                total /= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+            }
+        }
+        divOp = false;
+    }
     else if(minusOp)
     {
-        total += parseInt(ioScreen.value);
+        total += parseFloat(ioScreen.value);
         minusOp = false;
     }
-    ioScreen.value = total;
+    if(ioScreen.value !== "Cannot divide by zero")
+        ioScreen.value = total;
     total = 0;
 })
