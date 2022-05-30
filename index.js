@@ -1,5 +1,6 @@
 //Screen input output
 const ioScreen = document.getElementById("screen");
+const inputText = document.getElementById("input");
 //Buttons with digits
 const oneButton = document.getElementById("oneButton");
 const twoButton = document.getElementById("twoButton");
@@ -31,14 +32,27 @@ var minusOp = false;
 var divOp = false;
 var modOp = false;
 
+function IsOperation()
+{
+    return plusOp || multyOp || minusOp || divOp || modOp;
+}
+
 /**
  * Buttons events on click
  */
 oneButton.addEventListener("click", function() {
-    if(ioScreen.value === "0")
+    if(ioScreen.value === "0") {
         ioScreen.value = "1";
+    }
     else
         ioScreen.value += "1";
+
+    if(inputText.value === "0") {
+            inputText.value = "1";
+        }
+        else {
+                inputText.value += "1";  
+        }
 })
 
 twoButton.addEventListener("click", function() {
@@ -46,6 +60,12 @@ twoButton.addEventListener("click", function() {
         ioScreen.value = "2";
     else
         ioScreen.value += "2";
+
+    if(inputText.value === "0") {
+            inputText.value = "2";
+        }
+        else
+            inputText.value += "2";
 })
 
 threeButton.addEventListener("click", function() {
@@ -53,6 +73,12 @@ threeButton.addEventListener("click", function() {
         ioScreen.value = "3";
     else
         ioScreen.value += "3";
+
+    if(inputText.value === "0") {
+            inputText.value = "3";
+        }
+        else
+            inputText.value += "3";
 })
 
 fourButton.addEventListener("click", function() {
@@ -60,6 +86,12 @@ fourButton.addEventListener("click", function() {
         ioScreen.value = "4";
     else
         ioScreen.value += "4";
+
+    if(inputText.value === "0") {
+            inputText.value = "4";
+        }
+        else
+            inputText.value += "4";
 })
 
 fiveButton.addEventListener("click", function() {
@@ -67,6 +99,12 @@ fiveButton.addEventListener("click", function() {
         ioScreen.value = "5";
     else
         ioScreen.value += "5";
+    
+    if(inputText.value === "0") {
+            inputText.value = "5";
+        }
+        else
+            inputText.value += "5";
 })
 
 sixButton.addEventListener("click", function() {
@@ -74,6 +112,12 @@ sixButton.addEventListener("click", function() {
         ioScreen.value = "6";
     else
         ioScreen.value += "6";
+    
+    if(inputText.value === "0") {
+            inputText.value = "6";
+        }
+        else
+            inputText.value += "6";    
 })
 
 sevenButton.addEventListener("click", function(){
@@ -81,6 +125,12 @@ sevenButton.addEventListener("click", function(){
         ioScreen.value = "7";
     else
         ioScreen.value += "7";
+    
+    if(inputText.value === "0") {
+            inputText.value = "7";
+        }
+        else
+            inputText.value += "7";   
 })
 
 eightButton.addEventListener("click", function(){
@@ -88,6 +138,12 @@ eightButton.addEventListener("click", function(){
         ioScreen.value = "8";
     else
         ioScreen.value += "8";
+    
+    if(inputText.value === "0") {
+            inputText.value = "8";
+        }
+        else
+            inputText.value += "8";    
 })
 
 nineButton.addEventListener("click", function(){
@@ -95,6 +151,12 @@ nineButton.addEventListener("click", function(){
         ioScreen.value = "9";
     else
         ioScreen.value += "9";
+    
+    if(inputText.value === "0") {
+            inputText.value = "9";
+        }
+        else
+            inputText.value += "9";    
 })
 
 zeroButton.addEventListener("click", function() {
@@ -102,6 +164,12 @@ zeroButton.addEventListener("click", function() {
         ioScreen.value = "0";
     else
         ioScreen.value += "0";
+
+        if(inputText.value === "0") {
+            inputText.value = "0";
+        }
+        else
+            inputText.value += "0";
 })
 
 floatButton.addEventListener("click", function() {
@@ -110,7 +178,6 @@ floatButton.addEventListener("click", function() {
    var noDots = true;
    for(let i = 0 ; i < characters.length; i++)
    {
-       console.log(characters[i]);
        if(Number.isInteger(parseInt(characters[i])))
        {
            haveDigits = true;
@@ -125,6 +192,8 @@ floatButton.addEventListener("click", function() {
    if(haveDigits && noDots === true)
    {
        ioScreen.value += ".";
+       if(!IsOperation())
+       inputText.value += ".";
    }
 })
 
@@ -141,52 +210,64 @@ deleteButton.addEventListener("click", function() {
 
 clearButton.addEventListener("click" ,function() {
     ioScreen.value = "0";
+    inputText.value = "0";
 })
 
 radButton.addEventListener("click", function(){
-    if(minusOp)
-    {
-        ioScreen.value = "Invalid number format";
-        minusOp = false;
-    }
-    else{
-        var number;
-        if(multyOp || divOp) {
-            number = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-            if(multyOp) {
-                ioScreen.value = "X" + Math.sqrt(number);;
+    if(!IsOperation()) {
+        if(minusOp)
+        {
+            ioScreen.value = "Invalid number format";
+            minusOp = false;
+        }
+        else{
+            var number;
+            if(multyOp || divOp) {
+                number = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+                if(multyOp) {
+                    ioScreen.value = "X" + Math.sqrt(number);;
+                }
+                else{
+                    ioScreen.value = "/" + Math.sqrt(number);;
+                }
             }
-            else{
-                ioScreen.value = "/" + Math.sqrt(number);;
+            else {
+                ioScreen.value = Math.sqrt(parseFloat(ioScreen.value));
             }
         }
-        else {
-            ioScreen.value = Math.sqrt(parseFloat(ioScreen.value));
-        }
+        inputText.value = "rad(" + inputText.value + ")";
     }
 })
 
 powButton.addEventListener("click", function() {
-    var number;
-    if(multyOp || divOp) {
-        number = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-        if(multyOp) {
-            ioScreen.value = "X" + number * number;
+    if(!IsOperation()) {
+        var number;
+        if(multyOp || divOp) {
+            number = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+            if(multyOp) {
+                ioScreen.value = "X" + number * number;
+            }
+            else{
+                ioScreen.value = "/" + number * number;
+            }
         }
-        else{
-            ioScreen.value = "/" + number * number;
+        else {
+            number = parseFloat(ioScreen.value);
+            ioScreen.value = number * number;
         }
+        inputText.value += "^2";
     }
-    else {
-        number = parseFloat(ioScreen.value);
-        ioScreen.value = number * number;
-    }   
 })
 
 plusButton.addEventListener("click", function() {
    plusOp = true;
    total += parseFloat(ioScreen.value);
-   ioScreen.value = "+";
+   if(!IsOperation())
+        inputText.value += "+";
+    else{
+        inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "+";
+    }
+   ioScreen.value = "0";
 })
 
 multyButton.addEventListener("click", function() {
@@ -200,6 +281,11 @@ multyButton.addEventListener("click", function() {
         else 
             total += parseFloat(ioScreen.value);
         ioScreen.value = "X";
+        if(!IsOperation())
+            inputText.value += "X";
+        else{
+            inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "X";
+            }
     }
     multyOp = true;
 })
@@ -213,6 +299,17 @@ minusButton.addEventListener("click", function() {
         modOp = false;
     }
     ioScreen.value = "-";
+    if(inputText.value !== "0") {
+        if(!IsOperation())
+            inputText.value = inputText.value + "-";
+        else
+        {
+            inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "-";
+        }
+    }
+    else {
+        inputText.value = "-";
+    }
 })
 
 divButton.addEventListener("click" ,function() {
@@ -227,6 +324,12 @@ divButton.addEventListener("click" ,function() {
         else 
             total += parseFloat(ioScreen.value);
         ioScreen.value = "/";
+        if(!IsOperation()) {
+            inputText.value += "/";
+        }
+        else{
+            inputText.value =inputText.value.substring(0,inputText.value.length - 1) + "/";
+        }
     }
     divOp = true;
 })
@@ -240,6 +343,11 @@ modButton.addEventListener("click", function(){
         }
         total += parseFloat(ioScreen.value);
         ioScreen.value = "%";
+        if(!IsOperation())
+            inputText.value += "%";
+        else{
+            inputText.value =  inputText.value.substring(0,inputText.value.length - 1) + "%";
+        }
     }
     modOp = true;
 })
