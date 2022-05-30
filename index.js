@@ -158,6 +158,9 @@ radButton.addEventListener("click", function(){
                 ioScreen.value = "/" + Math.sqrt(number);;
             }
         }
+        else {
+            ioScreen.value = Math.sqrt(parseFloat(ioScreen.value));
+        }
     }
 })
 
