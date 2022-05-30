@@ -22,12 +22,14 @@ const divButton = document.getElementById("divButton");
 const clearButton = document.getElementById("clearButton");
 const radButton = document.getElementById("radButton");
 const powButton = document.getElementById("powButton");
+const modButton = document.getElementById("modButton");
 
 var total = 0.0;
 var plusOp = false;
 var multyOp = false;
 var minusOp = false;
 var divOp = false;
+var modOp = false;
 
 /**
  * Buttons events on click
@@ -188,28 +190,58 @@ plusButton.addEventListener("click", function() {
 })
 
 multyButton.addEventListener("click", function() {
+    if(multyOp === false) {
+        if(divOp || modOp) {
+            divOp = false;
+            modOp = false;
+        }
+        if(ioScreen.value.substring(0,1) === "X")
+            total *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+        else 
+            total += parseFloat(ioScreen.value);
+        ioScreen.value = "X";
+    }
     multyOp = true;
-    if(ioScreen.value.substring(0,1) === "X")
-        total *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-    else 
-        total += parseFloat(ioScreen.value);
-    ioScreen.value = "X";
 })
 
 minusButton.addEventListener("click", function() {
     minusOp = true;
     if(!multyOp && !divOp)
         total += parseFloat(ioScreen.value);
+    if(modOp)
+    {
+        modOp = false;
+    }
     ioScreen.value = "-";
 })
 
 divButton.addEventListener("click" ,function() {
+    if(divOp === false) {
+        if(multyOp || modOp) {
+            multyOp = false;
+            modOp = false;
+        }
+
+        if(ioScreen.value.substring(0,1) === "/")
+            total /= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+        else 
+            total += parseFloat(ioScreen.value);
+        ioScreen.value = "/";
+    }
     divOp = true;
-    if(ioScreen.value.substring(0,1) === "/")
-        total /= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-    else 
+})
+
+modButton.addEventListener("click", function(){
+   
+    if(modOp === false) {
+        if(multyOp || divOp) {
+            multyOp = false;
+            divOp = false;
+        }
         total += parseFloat(ioScreen.value);
-    ioScreen.value = "/";
+        ioScreen.value = "%";
+    }
+    modOp = true;
 })
 
 equalButton.addEventListener("click", function() {
@@ -252,6 +284,11 @@ equalButton.addEventListener("click", function() {
             }
         }
         divOp = false;
+    }
+    else if(modOp)
+    {   
+        total = total % parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+        modOp = false;
     }
     else if(minusOp)
     {
