@@ -1,7 +1,7 @@
 button {
     width: 100px;
     height: 50px;
-    margin: 5px;
+    border: 0ch;
 }
 
 #radButton{
@@ -11,4 +11,22 @@ button {
 input {
     width: 400px;
     height: 50px;
+    text-align: right;
+    border: 0ch;
+}
+
+
+header {
+    text-align: left;
+}
+
+main {
+    text-align: left;
+}
+
+footer {
+    text-align: left;
+}
+#calculator {
+    text-align: center;
 }
