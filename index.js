@@ -369,7 +369,7 @@ powButton.addEventListener("click", function() {
             number = parseFloat(ioScreen.value);
             ioScreen.value = number * number;
         }
-        inputText.value += "^2";
+        inputText.value = "(" + inputText.value + ")^2";
     }
 )
 
