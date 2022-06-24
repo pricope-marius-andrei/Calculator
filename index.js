@@ -299,11 +299,15 @@ deleteButton.addEventListener("click", function() {
 
     if(ioScreen.value === '')
     {
+        invalidFormat = false;
+        firstTime = true;
         ioScreen.value = "0";
     }
 
     if(inputText.value === '')
     {
+        invalidFormat = false;
+        firstTime = true;
         inputText.value = "0";
     }
 })
