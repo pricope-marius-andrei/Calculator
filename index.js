@@ -48,6 +48,11 @@ function Equal()
             total *= parseFloat(ioScreen.value);
             minusOp = false;
         }
+        else if(ioScreen.value.substring(0,1) === "X")
+        {
+            console.log(total);
+            total *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+        }
         else {
             total *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
         }
@@ -391,16 +396,21 @@ plusButton.addEventListener("click", function() {
 })
 
 multyButton.addEventListener("click", function() {
+    minusOp = false;
     if(multyOp === false) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(divOp || modOp) {
             divOp = false;
             modOp = false;
         }
-        if(ioScreen.value.substring(0,1) === "X")
-            total *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-        else 
-            total += parseFloat(ioScreen.value);
+
+            if(ioScreen.value.substring(0,1) === "X")
+                total *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+            else {
+                total += parseFloat(ioScreen.value);
+            }
+
+        console.log(total);
         ioScreen.value = "X";
         if(IsOperation(input,"/","+","%","-"))
             inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "X";
@@ -414,16 +424,18 @@ multyButton.addEventListener("click", function() {
 minusButton.addEventListener("click", function() {
     minusOp = true;
     var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
-    if(!multyOp && !divOp)
+    if(!multyOp && !divOp) {
         total += parseFloat(ioScreen.value);
+    }
     if(modOp)
     {
         modOp = false;
     }
     ioScreen.value = "-";
     if(inputText.value !== "0") {
-        if(!IsOperation(input,"-","+","-","+"))
+        if(!IsOperation(input,"-","+","-","+")) {
             inputText.value = inputText.value + "-";
+        }
         else
         {
             inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "-";
