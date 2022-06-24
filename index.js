@@ -301,6 +301,11 @@ deleteButton.addEventListener("click", function() {
     {
         invalidFormat = false;
         firstTime = true;
+        plusOp = false;
+        multyOp = false;
+        minusOp = false;
+        divOp = false;
+        modOp = false;
         ioScreen.value = "0";
     }
 
@@ -308,6 +313,11 @@ deleteButton.addEventListener("click", function() {
     {
         invalidFormat = false;
         firstTime = true;
+        plusOp = false;
+        multyOp = false;
+        minusOp = false;
+        divOp = false;
+        modOp = false;
         inputText.value = "0";
     }
 })
@@ -317,15 +327,25 @@ clearButton.addEventListener("click" ,function() {
     inputText.value = "0";
     invalidFormat = false;
     firstTime = true;
+    plusOp = false;
+    multyOp = false;
+    minusOp = false;
+    divOp = false;
+    modOp = false;
 })
 
 radButton.addEventListener("click", function(){
     if(AddNumberCodition(inputText.value)) {
-        if(minusOp && firstTime)
+        if(minusOp)
         {
-            ioScreen.value = "Invalid number format";
-            invalidFormat = true;
-            minusOp = false;
+            if(firstTime) {
+                ioScreen.value = "Invalid number format";
+                invalidFormat = true;
+                minusOp = false;
+            }
+            else if(!firstTime || multyOp || divOp){
+                ioScreen.value = -1 * Math.sqrt(parseFloat(ioScreen.value) * -1);
+            }
         }
         else{
             var number;
@@ -428,7 +448,7 @@ multyButton.addEventListener("click", function() {
 minusButton.addEventListener("click", function() {
     minusOp = true;
     var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
-    if(!multyOp && !divOp) {
+    if(!multyOp && !divOp && !isNaN(ioScreen.value)) {
         total += parseFloat(ioScreen.value);
     }
     if(modOp)
