@@ -1,0 +1,50 @@
+button {
+    background-image:  linear-gradient(to bottom right,rgb(254, 254, 254),rgb(226, 236, 237));
+    width: 100px;
+    height: 50px;
+    border: 0ch;
+    border-radius: 8px;
+    margin: 1px;
+}
+
+button:hover{
+    background-image:linear-gradient(to bottom right, rgb(200, 228, 228),rgb(223, 250, 246));
+}
+
+#radButton{
+    width: 205px;
+}
+
+#deleteButton, #clearButton {
+    width: 95px;
+}
+
+
+input {
+    width: 400px;
+    height: 50px;
+    text-align: right;
+    padding-right: 10px;
+    margin: 5px;
+    border: 0ch;
+    border-radius: 8px;
+}
+
+
+header {
+    text-align: left;
+}
+
+main {
+    text-align: left;
+}
+
+footer {
+    text-align: left;
+}
+#calculator {
+    width: fit-content;
+    background-image: linear-gradient(to bottom right,rgb(164, 220, 236),rgb(63, 167, 173)) ;
+    padding: 20px;
+    border-radius: 8px;
+}
