@@ -1,5 +1,5 @@
 button {
-    background-image:  linear-gradient(to bottom right,white,rgb(233, 233, 233));
+    background-image:  linear-gradient(to bottom right,rgb(254, 254, 254),rgb(226, 236, 237));
     width: 100px;
     height: 50px;
     border: 0ch;
@@ -8,7 +8,7 @@ button {
 }
 
 button:hover{
-    background-image:linear-gradient(to bottom right, rgb(164, 220, 236),rgb(223, 250, 246));
+    background-image:linear-gradient(to bottom right, rgb(200, 228, 228),rgb(223, 250, 246));
 }
 
 #radButton{

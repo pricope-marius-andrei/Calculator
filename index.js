@@ -36,7 +36,8 @@ var invalidFormat = false;
 
 function Equal()
 {
-    firstTime = false;
+    firstTime = true;
+    if(plusOp || multyOp || divOp || modOp || minusOp) {
     if(plusOp) {
         total += parseFloat(ioScreen.value);
         plusOp = false;
@@ -96,6 +97,7 @@ function Equal()
     if(ioScreen.value !== "Cannot divide by zero")
         ioScreen.value = total;
     total = 0;
+    }
 }
 
 function IsOperation(input,a,b,c,d)
@@ -106,6 +108,13 @@ function IsOperation(input,a,b,c,d)
 function AddNumberCodition(input)
 {
     return (plusOp || multyOp || minusOp || divOp || modOp || input === "0" || firstTime) && invalidFormat === false;
+}
+
+function LastCharacterOp()
+{
+    var input = inputText.value;
+    var character = input.substring(input.length-1,input.length);
+    return character !== "-" && character !== "+" && character !== "X" && character !== "/" && character !== "%";
 }
 
 /**
@@ -335,7 +344,7 @@ clearButton.addEventListener("click" ,function() {
 })
 
 radButton.addEventListener("click", function(){
-    if(AddNumberCodition(inputText.value)) {
+    if(AddNumberCodition(inputText.value) && LastCharacterOp()) {
         if(minusOp)
         {
             if(firstTime) {
@@ -362,7 +371,7 @@ radButton.addEventListener("click", function(){
                 ioScreen.value = Math.sqrt(parseFloat(ioScreen.value));
             }
         }
-        if(firstTime) {
+        if(firstTime || (!minusOp && !plusOp && !modOp && !divOp)) {
             inputText.value = "rad(" + inputText.value + ")";
             firstTime = false;
         }
@@ -377,7 +386,8 @@ radButton.addEventListener("click", function(){
                     i = -1;
                 }
             }
-            inputText.value = inputText.value.substring(0,position + 1) + "rad(" + inputText.value.substring(position + 1, inputText.value.length) + ")";
+            if(position !== characters.length - 1)
+                inputText.value = inputText.value.substring(0,position + 1) + "rad(" + inputText.value.substring(position + 1, inputText.value.length) + ")";
         }
     }
 }
@@ -403,25 +413,30 @@ powButton.addEventListener("click", function() {
 )
 
 plusButton.addEventListener("click", function() {
+   firstTime = false;
+   if(plusOp === false) {
+            var value;
+        var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
+        if(input !== "+" && !minusOp)
+        {
+            if(IsOperation(input,"/","X","%","-"))
+            {
+                inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "+";
+            }
+            else {
+                    inputText.value += "+";
+            }
+            value = parseFloat(ioScreen.value);
+            ioScreen.value = "0";
+            
+        }
+        total += value;
+    }
    plusOp = true;
-   var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
-   if(input !== "+")
-   {
-       if(IsOperation(input,"/","X","%","-"))
-       {
-           inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "+";
-       }
-       else {
-            inputText.value += "+";
-       }
-   }
-   total += parseFloat(ioScreen.value);
-   ioScreen.value = "0";
 })
 
 multyButton.addEventListener("click", function() {
-    minusOp = false;
-    if(multyOp === false) {
+    if(multyOp === false && !minusOp && !plusOp && !divOp) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(divOp || modOp) {
             divOp = false;
@@ -446,33 +461,42 @@ multyButton.addEventListener("click", function() {
 })
 
 minusButton.addEventListener("click", function() {
-    minusOp = true;
-    var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
-    if(!multyOp && !divOp && !isNaN(ioScreen.value)) {
-        total += parseFloat(ioScreen.value);
-    }
-    if(modOp)
-    {
-        modOp = false;
-    }
-    ioScreen.value = "-";
-    if(inputText.value !== "0") {
-        if(!IsOperation(input,"-","+","-","+")) {
-            inputText.value = inputText.value + "-";
+    if(minusOp === false) {
+        var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
+        if(!multyOp && !divOp && !isNaN(ioScreen.value)) {
+            total += parseFloat(ioScreen.value);
         }
-        else
+        if(modOp)
         {
-            inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "-";
+            modOp = false;
+        }
+        ioScreen.value = "-";
+        if(inputText.value !== "0") {
+            if(!IsOperation(input,"-","+","-","+")) {
+                inputText.value = inputText.value + "-";
+            }
+            else
+            {
+                inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "-";
+            }
+        }
+        else {
+            inputText.value = "-";
         }
     }
-    else {
-        inputText.value = "-";
+    if(inputText.value === "-" && inputText.value.length === 1)
+    {
+        firstTime = true;
     }
+    else{
+        firstTime = false;
+    }
+    minusOp = true;
 })
 
 divButton.addEventListener("click" ,function() {
     var input = inputText.value.substring(inputText.value.length-1,inputText.value.length); 
-    if(divOp === false) {
+    if(divOp === false && !minusOp && !plusOp && !multyOp) {
         if(multyOp || modOp) {
             multyOp = false;
             modOp = false;
@@ -496,7 +520,7 @@ divButton.addEventListener("click" ,function() {
 modButton.addEventListener("click", function(){
    
     var input = inputText.value.substring(inputText.value.length - 1, inputText.value.length);
-    if(modOp === false) {
+    if(modOp === false && !minusOp && !plusOp) {
         if(multyOp || divOp) {
             multyOp = false;
             divOp = false;
