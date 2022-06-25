@@ -411,6 +411,7 @@ radButton.addEventListener("click", function(){
 
 powButton.addEventListener("click", function() {
         var number;
+        firstTime = false;
         if(multyOp || divOp) {
             number = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
             if(multyOp) {
