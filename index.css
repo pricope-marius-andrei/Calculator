@@ -1,50 +1,55 @@
+
+body {
+    background-image: linear-gradient(to bottom right, rgb(0, 0, 140), rgb(6, 4, 39)); 
+    height: 100vh;
+    background-repeat: no-repeat;
+}
+
+#display input{
+    display: flex;
+    background-color: transparent;
+}
+
+#display {
+    padding: 0.6em;
+}
+
+#input {
+    font-size: 1em;
+}
+
+#screen{
+    font-size: 3rem;
+}
+
+
+
 button {
-    background-image:  linear-gradient(to bottom right,rgb(254, 254, 254),rgb(226, 236, 237));
-    width: 100px;
+    background-image:  linear-gradient(to bottom right,rgb(244, 242, 245),rgb(244, 244, 244));
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    width: 80px;
     height: 50px;
     border: 0ch;
     border-radius: 8px;
-    margin: 1px;
+    margin: 1px; 
 }
 
 button:hover{
-    background-image:linear-gradient(to bottom right, rgb(200, 228, 228),rgb(223, 250, 246));
+    background-image:linear-gradient(to bottom right,rgb(238, 238, 238),rgb(237, 233, 243));
 }
-
-#radButton{
-    width: 205px;
-}
-
-#deleteButton, #clearButton {
-    width: 95px;
-}
-
 
 input {
-    width: 400px;
+    width: 300px;
     height: 50px;
     text-align: right;
     padding-right: 10px;
-    margin: 5px;
     border: 0ch;
-    border-radius: 8px;
 }
 
-
-header {
-    text-align: left;
-}
-
-main {
-    text-align: left;
-}
-
-footer {
-    text-align: left;
-}
 #calculator {
     width: fit-content;
-    background-image: linear-gradient(to bottom right,rgb(164, 220, 236),rgb(63, 167, 173)) ;
+    background-image: linear-gradient(to bottom right,rgba(250, 250, 250, 0.879),#ddddddfa,rgba(249, 249, 249, 0.827)) ;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 1.2em;
+    text-align: center;
 }
