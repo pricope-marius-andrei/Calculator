@@ -50,6 +50,8 @@ input {
     width: fit-content;
     background-image: linear-gradient(to bottom right,rgba(250, 250, 250, 0.879),#ddddddfa,rgba(249, 249, 249, 0.827)) ;
     padding: 20px;
+    margin-top: 5%;
+    margin-left: 25%;
     border-radius: 1.2em;
     text-align: center;
 }
