@@ -453,7 +453,7 @@ plusButton.addEventListener("click", function() {
 })
 
 multyButton.addEventListener("click", function() {
-    if(multyOp === false && !minusOp && !plusOp && !divOp) {
+    if(multyOp === false && !minusOp && !plusOp && !divOp && !modOp) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(divOp || modOp) {
             divOp = false;
@@ -514,7 +514,7 @@ minusButton.addEventListener("click", function() {
 
 divButton.addEventListener("click" ,function() {
     var input = inputText.value.substring(inputText.value.length-1,inputText.value.length); 
-    if(divOp === false && !minusOp && !plusOp && !multyOp) {
+    if(divOp === false && !minusOp && !plusOp && !multyOp && !modOp) {
         if(multyOp || modOp) {
             multyOp = false;
             modOp = false;
@@ -538,7 +538,7 @@ divButton.addEventListener("click" ,function() {
 modButton.addEventListener("click", function(){
    
     var input = inputText.value.substring(inputText.value.length - 1, inputText.value.length);
-    if(modOp === false && !minusOp && !plusOp) {
+    if(modOp === false && !minusOp && !plusOp && !divOp && !multyOp) {
         if(multyOp || divOp) {
             multyOp = false;
             divOp = false;
