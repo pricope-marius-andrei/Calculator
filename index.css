@@ -55,3 +55,12 @@ input {
     border-radius: 1.2em;
     text-align: center;
 }
+
+.equalStyle {
+    background-image:linear-gradient(to bottom right,rgb(0, 0, 140),rgb(3, 3, 116));
+    color: aliceblue;
+}
+
+.equalStyle:hover {
+    background-image:linear-gradient(to bottom right,rgb(20, 20, 145),rgb(16, 16, 160));
+}

@@ -409,6 +409,7 @@ clearButton.addEventListener("click" ,function() {
     minusOp = false;
     divOp = false;
     modOp = false;
+    equalButton.classList.remove("equalStyle");
 })
 
 clearScreenButon.addEventListener("click",function() {
@@ -439,6 +440,7 @@ clearScreenButon.addEventListener("click",function() {
         {
             inputText.value = "0";
         }
+    equalButton.classList.remove("equalStyle");
 }
 })
 
@@ -538,11 +540,10 @@ subButton.addEventListener("click", function() {
 })
 
 plusButton.addEventListener("click", function() {
-   firstTime = false;
-   if(plusOp === false && !minusOp) {
-            var value;
+   if(plusOp === false) {
+        var value;
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
-        if(input !== "+" && !minusOp)
+        if(input !== "+")
         {
             if(IsOperation(input,"/","X","%","-"))
             {
@@ -557,7 +558,10 @@ plusButton.addEventListener("click", function() {
         }
         total += value;
     }
+    equalButton.classList.add("equalStyle");
+    firstTime = false;
    plusOp = true;
+   
 })
 
 multyButton.addEventListener("click", function() {
@@ -583,10 +587,11 @@ multyButton.addEventListener("click", function() {
         }
     }
     multyOp = true;
+    equalButton.classList.add("equalStyle");
 })
 
 minusButton.addEventListener("click", function() {
-    if(minusOp === false && !plusOp && !floatOp) {
+    if(!plusOp && !floatOp) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(!multyOp && !divOp && !isNaN(ioScreen.value)) {
             total += parseFloat(ioScreen.value);
@@ -615,6 +620,7 @@ minusButton.addEventListener("click", function() {
     }
     else{
         firstTime = false;
+        equalButton.classList.add("equalStyle");
     }
     minusOp = true;
 }
@@ -641,6 +647,7 @@ divButton.addEventListener("click" ,function() {
         }
     }
     divOp = true;
+    equalButton.classList.add("equalStyle");
 })
 
 modButton.addEventListener("click", function(){
@@ -660,8 +667,11 @@ modButton.addEventListener("click", function(){
         }
     }
     modOp = true;
+    equalButton.classList.add("equalStyle");
 })
 
 equalButton.addEventListener("click", function() {
     Equal();
+    equalButton.classList.remove("equalStyle");
 })
+
