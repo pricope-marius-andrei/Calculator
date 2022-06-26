@@ -541,7 +541,7 @@ subButton.addEventListener("click", function() {
 })
 
 plusButton.addEventListener("click", function() {
-   if(plusOp === false) {
+   if(plusOp === false && !minusOp) {
         var value;
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(input !== "+")
