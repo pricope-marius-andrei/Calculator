@@ -15,27 +15,38 @@ body {
 }
 
 #input {
-    font-size: 1em;
+    font-size: 0.9em;
 }
 
 #screen{
-    font-size: 3rem;
+    font-size: 1.9rem;
 }
 
 
 
 button {
+    position: relative;
     background-image:  linear-gradient(to bottom right,rgb(244, 242, 245),rgb(244, 244, 244));
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     width: 80px;
     height: 50px;
     border: 0ch;
     border-radius: 8px;
-    margin: 1px; 
+    margin: 2px; 
 }
+
 
 button:hover{
     background-image:linear-gradient(to bottom right,rgb(238, 238, 238),rgb(237, 233, 243));
+}
+
+.deleteStyle {
+    background-image: linear-gradient(to bottom right,rgb(0, 0, 0),rgb(4, 4, 4));
+    color: aliceblue;
+}
+
+.deleteStyle:hover {
+    background-image: linear-gradient(to bottom right,rgb(32, 32, 32),rgb(33, 31, 31))
 }
 
 input {
