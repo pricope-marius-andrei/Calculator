@@ -24,6 +24,7 @@ const clearButton = document.getElementById("clearButton");
 const radButton = document.getElementById("radButton");
 const powButton = document.getElementById("powButton");
 const modButton = document.getElementById("modButton");
+const changerButton = document.getElementById("changerButton");
 
 var total = 0.0;
 var plusOp = false;
@@ -79,6 +80,7 @@ function Equal()
             if(parseFloat(ioScreen.value.substring(1,ioScreen.value.length)) === 0.0)
             {
                 ioScreen.value = "Cannot divide by zero";
+                invalidFormat = true;
             }
             else {
                 total /= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
@@ -122,6 +124,7 @@ function LastCharacterOp()
 function FirstTime()
 {
     const characters = inputText.value.split('');
+    console.log(characters);
     for(let i = 0; i < characters.length; i++)
     {
         if(!Number.isInteger(characters[i]))
@@ -313,6 +316,23 @@ floatButton.addEventListener("click", function() {
         }
     }
     floatOp = true;
+})
+
+changerButton.addEventListener("click", function() {
+    console.log(invalidFormat);
+    if(invalidFormat == false && !plusOp && !minusOp && !multyOp && !divOp && !modOp)
+    {
+        if(firstTime === false)
+        {
+            inputText.value = "negate(" + inputText.value + ")";
+            ioScreen.value = parseFloat(ioScreen.value) * -1;
+        }
+        else
+        {
+            ioScreen.value = parseFloat(ioScreen.value) * -1;
+            inputText.value = parseFloat(inputText.value) * -1;
+        }
+    }
 })
 
 
