@@ -25,6 +25,7 @@ const radButton = document.getElementById("radButton");
 const powButton = document.getElementById("powButton");
 const modButton = document.getElementById("modButton");
 const changerButton = document.getElementById("changerButton");
+const subButton = document.getElementById("subButton");
 
 var total = 0.0;
 var plusOp = false;
@@ -320,11 +321,29 @@ floatButton.addEventListener("click", function() {
 
 changerButton.addEventListener("click", function() {
     console.log(invalidFormat);
-    if(invalidFormat == false && !plusOp && !minusOp && !multyOp && !divOp && !modOp)
+    if(invalidFormat == false && !multyOp && !divOp && !modOp && LastCharacterOp())
     {
-        if(firstTime === false)
+        if(firstTime === false && !minusOp && !plusOp)
         {
             inputText.value = "negate(" + inputText.value + ")";
+            ioScreen.value = parseFloat(ioScreen.value) * -1;
+        }
+        else if(minusOp || plusOp)
+        {
+            console.log("fdgfgf");
+            const characters = inputText.value.split('');
+            for(let i = characters.length; i >= 0; i--)
+            {
+                if(characters[i] === "-")
+                {
+                    inputText.value = inputText.value.substring(0,i) + "+" + inputText.value.substring(i + 1, inputText.value.length);
+                    i = -1;
+                }
+                else if(characters[i] === "+"){
+                    inputText.value = inputText.value.substring(0,i) + "-" + inputText.value.substring(i + 1, inputText.value.length);
+                    i = -1;
+                }
+            }
             ioScreen.value = parseFloat(ioScreen.value) * -1;
         }
         else
@@ -339,8 +358,13 @@ changerButton.addEventListener("click", function() {
 deleteButton.addEventListener("click", function() {
     var input = ioScreen.value;
     var input2 = inputText.value;
-    ioScreen.value = input.substring(0,input.length - 1);
-    inputText.value = input2.substring(0,input2.length - 1);
+
+    if(ioScreen.value !== "0")
+    {
+        inputText.value = input2.substring(0,input2.length-1);
+    }
+    
+    ioScreen.value = input.substring(0,input.length-1);
 
     if(ioScreen.value === '')
     {
@@ -365,6 +389,13 @@ deleteButton.addEventListener("click", function() {
         modOp = false;
         inputText.value = "0";
     }
+
+    if(ioScreen.value === "0")
+    {
+        inputText.value = "0";
+    }
+
+    
 })
 
 clearButton.addEventListener("click" ,function() {
@@ -431,23 +462,48 @@ radButton.addEventListener("click", function(){
 
 powButton.addEventListener("click", function() {
         var number;
-        firstTime = false;
-        if(multyOp || divOp) {
-            number = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-            if(multyOp) {
-                ioScreen.value = "X" + number * number;
-            }
-            else{
-                ioScreen.value = "/" + number * number;
-            }
-        }
-        else {
+        if(!multyOp && !divOp && !minusOp && !modOp && !plusOp && LastCharacterOp()) {
             number = parseFloat(ioScreen.value);
             ioScreen.value = number * number;
+            if(firstTime === true) {
+                inputText.value = inputText.value + "^2";
+            }
+            else {
+                inputText.value = "(" + inputText.value + ")^2";
+            }
         }
-        inputText.value = "(" + inputText.value + ")^2";
+
+        firstTime = false;
+        
+})
+
+subButton.addEventListener("click", function() {
+    var number;
+    if(!multyOp && !divOp) {
+        number = parseFloat(ioScreen.value);
+        if(number === 0)
+        {
+            ioScreen.value = "Cannot divide by zero";
+            invalidFormat = true;
+        }
+        else{
+            var divided = 1 / number;
+            ioScreen.value = divided;
+            if(firstTime) {
+                inputText.value = "1/" + number;
+            }
+            else {
+                while(LastCharacterOp())
+                {
+                    inputText.value = inputText.value.substring(0,inputText.value.length - 1);
+                }
+                inputText.value = inputText.value + "1/" + number;
+            }
+        }
     }
-)
+
+    firstTime = false;
+})
 
 plusButton.addEventListener("click", function() {
    firstTime = false;
