@@ -26,6 +26,7 @@ const powButton = document.getElementById("powButton");
 const modButton = document.getElementById("modButton");
 const changerButton = document.getElementById("changerButton");
 const subButton = document.getElementById("subButton");
+const clearScreenButon = document.getElementById("clearScreenButton");
 
 var total = 0.0;
 var plusOp = false;
@@ -408,6 +409,37 @@ clearButton.addEventListener("click" ,function() {
     minusOp = false;
     divOp = false;
     modOp = false;
+})
+
+clearScreenButon.addEventListener("click",function() {
+    if(plusOp || multyOp || minusOp || divOp || modOp) {
+        ioScreen.value = "0";
+        invalidFormat = false;
+        if(plusOp)
+            plusOp = !plusOp;
+        if(multyOp)
+            multyOp = !multyOp;
+        if(minusOp)
+            minusOp = !minusOp;
+        if(divOp)
+            divOp = !divOp;
+        if(modOp)
+            modOp = !modOp;
+        while(LastCharacterOp())
+        {
+            inputText.value = inputText.value.substring(0,inputText.value.length - 1);
+        }
+
+        if(!LastCharacterOp())
+        {
+            inputText.value = inputText.value.substring(0,inputText.value.length - 1);
+        }
+
+        if(inputText.value === '')
+        {
+            inputText.value = "0";
+        }
+}
 })
 
 radButton.addEventListener("click", function(){
