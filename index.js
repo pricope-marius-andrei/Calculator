@@ -46,6 +46,7 @@ function Equal()
     floatOp = false;
     if(plusOp || multyOp || divOp || modOp || minusOp) {
     if(plusOp) {
+        console.log("da");
         total += parseFloat(ioScreen.value);
         plusOp = false;
     }
@@ -130,7 +131,6 @@ function LastCharacterOp()
 function FirstTime()
 {
     const characters = inputText.value.split('');
-    console.log(characters);
     for(let i = 0; i < characters.length; i++)
     {
         if(!Number.isInteger(characters[i]))
@@ -367,7 +367,20 @@ deleteButton.addEventListener("click", function() {
 
         if(ioScreen.value !== "0")
         {
-            inputText.value = input2.substring(0,input2.length-1);
+            if(input2.substring(input2.length-1,input2.length) === "-")
+            {
+                console.log("da");
+                minusOp = false;
+                inputText.value = input2.substring(0,input2.length-1);
+                input2 = input2.substring(0,input2.length-1);
+                if(input2.substring(input2.length-1,input2.length) === "X")
+                {
+                    inputText.value = input2.substring(0,input2.length-1);
+                }
+
+            }
+            else
+                inputText.value = input2.substring(0,input2.length-1);
         }
         
         ioScreen.value = input.substring(0,input.length-1);
@@ -581,14 +594,15 @@ plusButton.addEventListener("click", function() {
         total += value;
         equalButton.classList.add("equalStyle");
         firstTime = false;
+        plusOp = true;
     }
-    plusOp = true;
 }
    
 })
 
 multyButton.addEventListener("click", function() {
     if(!(minusOp && firstTime)) {
+        console.log(multyOp);
     if(multyOp === false && !minusOp && !plusOp && !divOp && !modOp) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(divOp || modOp) {
@@ -601,8 +615,6 @@ multyButton.addEventListener("click", function() {
             else {
                 total += parseFloat(ioScreen.value);
             }
-
-        console.log(total);
         ioScreen.value = "X";
         if(IsOperation(input,"/","+","%","-"))
             inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "X";
@@ -613,9 +625,9 @@ multyButton.addEventListener("click", function() {
                 inputText.value = "(" + inputText.value + ")X";
             }
         }
+        multyOp = true;
+        equalButton.classList.add("equalStyle");
     }
-    multyOp = true;
-    equalButton.classList.add("equalStyle");
     }
 })
 
@@ -637,6 +649,7 @@ minusButton.addEventListener("click", function() {
             {
                 inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "-";
             }
+            minusOp = true;
         }
    
     if(inputText.value === "-" && inputText.value.length === 1)
@@ -647,10 +660,10 @@ minusButton.addEventListener("click", function() {
         firstTime = false;
         equalButton.classList.add("equalStyle");
     }
-    minusOp = true;
 })
 
 divButton.addEventListener("click" ,function() {
+    if(!(minusOp && firstTime)) {
     var input = inputText.value.substring(inputText.value.length-1,inputText.value.length); 
     if(divOp === false && !minusOp && !plusOp && !multyOp && !modOp) {
         if(multyOp || modOp) {
@@ -673,12 +686,14 @@ divButton.addEventListener("click" ,function() {
         else{
             inputText.value =inputText.value.substring(0,inputText.value.length - 1) + "/";
         }
+        divOp = true;
+        equalButton.classList.add("equalStyle");
     }
-    divOp = true;
-    equalButton.classList.add("equalStyle");
+}
 })
 
 modButton.addEventListener("click", function(){
+    if(!(minusOp && firstTime)) {
     var input = inputText.value.substring(inputText.value.length - 1, inputText.value.length);
     if(modOp === false && !minusOp && !plusOp && !divOp && !multyOp) {
         if(multyOp || divOp) {
@@ -692,9 +707,12 @@ modButton.addEventListener("click", function(){
         else{
             inputText.value =  inputText.value.substring(0,inputText.value.length - 1) + "%";
         }
+        modOp = true;
+        equalButton.classList.add("equalStyle");
+        firstTime = false;
     }
-    modOp = true;
-    equalButton.classList.add("equalStyle");
+}
+    
 })
 
 equalButton.addEventListener("click", function() {
