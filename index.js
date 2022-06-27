@@ -520,7 +520,7 @@ powButton.addEventListener("click", function() {
 
 subButton.addEventListener("click", function() {
     var number;
-    if(!multyOp && !divOp) {
+    if(!multyOp && !divOp && LastCharacterOp()) {
         number = parseFloat(ioScreen.value);
         if(number === 0)
         {
@@ -530,7 +530,11 @@ subButton.addEventListener("click", function() {
         else{
             var divided = 1 / number;
             ioScreen.value = divided;
-            if(firstTime) {
+            if(!plusOp && !multyOp && !minusOp && !divOp && !modOp && !firstTime)
+            {
+                inputText.value = "1/(" + inputText.value + ")";
+            }
+            else if(firstTime) {
                 if(number > 0) {
                     inputText.value = "1/" + number;
                 }
