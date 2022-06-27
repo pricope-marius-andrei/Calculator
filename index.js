@@ -364,15 +364,18 @@ changerButton.addEventListener("click", function() {
 
 
 deleteButton.addEventListener("click", function() {
-    if(plusOp || minusOp || divOp || modOp || multyOp || firstTime) {
+    if((plusOp || minusOp || divOp || modOp || multyOp || firstTime || !LastCharacterOp()) && !invalidFormat) {
         var input = ioScreen.value;
         var input2 = inputText.value;
+
+        if(!LastCharacterOp()) {
+            inputText.value = inputText.value.substring(0,inputText.value.length-1);
+        }
 
         if(ioScreen.value !== "0")
         {
             if(input2.substring(input2.length-1,input2.length) === "-")
             {
-                console.log("da");
                 minusOp = false;
                 inputText.value = input2.substring(0,input2.length-1);
                 input2 = input2.substring(0,input2.length-1);
@@ -588,13 +591,7 @@ plusButton.addEventListener("click", function() {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(input !== "+")
         {
-            if(IsOperation(input,"/","X","%","-"))
-            {
-                inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "+";
-            }
-            else {
-                    inputText.value += "+";
-            }
+            inputText.value += "+";
             value = parseFloat(ioScreen.value);
             ioScreen.value = "0";
             
@@ -610,7 +607,6 @@ plusButton.addEventListener("click", function() {
 
 multyButton.addEventListener("click", function() {
     if(!(minusOp && firstTime)) {
-        console.log(multyOp);
     if(multyOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !minusOp && !plusOp && !divOp && !modOp) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(divOp || modOp) {
@@ -623,16 +619,12 @@ multyButton.addEventListener("click", function() {
             else {
                 total += parseFloat(ioScreen.value);
             }
-        ioScreen.value = "X";
-        if(IsOperation(input,"/","+","%","-"))
-            inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "X";
-        else{
+            ioScreen.value = "X";
             if(firstTime)
                 inputText.value += "X";
             else{
                 inputText.value = "(" + inputText.value + ")X";
             }
-        }
         multyOp = true;
         equalButton.classList.add("equalStyle");
     }
@@ -650,14 +642,8 @@ minusButton.addEventListener("click", function() {
             modOp = false;
         }
         ioScreen.value = "-";
-            if(!IsOperation(input,"-","+","-","+")) {
-                inputText.value = inputText.value + "-";
-            }
-            else
-            {
-                inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "-";
-            }
-            minusOp = true;
+        inputText.value = inputText.value + "-";
+        minusOp = true;
        
    
     if(inputText.value === "-" && inputText.value.length === 1)
@@ -685,16 +671,11 @@ divButton.addEventListener("click" ,function() {
         else 
             total += parseFloat(ioScreen.value);
         ioScreen.value = "/";
-        if(!IsOperation(input,"+","-","%","*")) {
             if(firstTime)
                 inputText.value += "/";
             else{
                 inputText.value = "(" + inputText.value + ")/";
-        }
-        }
-        else{
-            inputText.value =inputText.value.substring(0,inputText.value.length - 1) + "/";
-        }
+            }
         divOp = true;
         equalButton.classList.add("equalStyle");
     }
@@ -711,18 +692,14 @@ modButton.addEventListener("click", function(){
         }
         total += parseFloat(ioScreen.value);
         ioScreen.value = "%";
-        if(!IsOperation(input,"-","+","/","X"))
-            inputText.value += "%";
-        else{
-            inputText.value =  inputText.value.substring(0,inputText.value.length - 1) + "%";
+        inputText.value += "%";
         }
         modOp = true;
         equalButton.classList.add("equalStyle");
         firstTime = false;
     }
 }
-    
-})
+)
 
 equalButton.addEventListener("click", function() {
     Equal();
