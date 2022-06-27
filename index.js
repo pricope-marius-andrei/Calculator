@@ -437,21 +437,15 @@ clearScreenButon.addEventListener("click",function() {
     if(plusOp || multyOp || minusOp || divOp || modOp || firstTime) {
         ioScreen.value = "0";
         invalidFormat = false;
-        if(plusOp)
-            plusOp = !plusOp;
-        if(multyOp)
-            multyOp = !multyOp;
-        if(minusOp)
-            minusOp = !minusOp;
-        if(divOp)
-            divOp = !divOp;
-        if(modOp)
-            modOp = !modOp;
         
-
         for(let i = inputText.value.length; i >= 0 && LastCharacterOp() ; i--)
         {
             inputText.value = inputText.value.substring(0,inputText.value.length - 1);
+        }
+
+        if(divOp || modOp || multyOp)
+        {
+            inputText.value = inputText.value.substring(1,inputText.value.length-2);
         }
 
         if(!LastCharacterOp())
@@ -463,6 +457,17 @@ clearScreenButon.addEventListener("click",function() {
         {
             inputText.value = "0";
         }
+
+        if(plusOp)
+            plusOp = !plusOp;
+        if(multyOp)
+            multyOp = !multyOp;
+        if(minusOp)
+            minusOp = !minusOp;
+        if(divOp)
+            divOp = !divOp;
+        if(modOp)
+            modOp = !modOp;
     equalButton.classList.remove("equalStyle");
 }
 })
