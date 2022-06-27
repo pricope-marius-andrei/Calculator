@@ -43,8 +43,8 @@ function Equal()
 {
     if(LastCharacterOp()) {
     firstTime = FirstTime();
+    if(plusOp || multyOp || divOp || modOp || minusOp || floatOp) {
     floatOp = false;
-    if(plusOp || multyOp || divOp || modOp || minusOp) {
     if(plusOp) {
         console.log("da");
         total += parseFloat(ioScreen.value);
@@ -317,11 +317,14 @@ floatButton.addEventListener("click", function() {
 
         if(haveDigits && noDots === true)
         {
+            if(ioScreen.value === "0" && !firstTime)
+                inputText.value += "0.";
+            else
+                inputText.value += ".";
             ioScreen.value += ".";
-            inputText.value += ".";
         }
+        floatOp = true;
     }
-    floatOp = true;
 })
 
 changerButton.addEventListener("click", function() {
@@ -465,10 +468,10 @@ clearScreenButon.addEventListener("click",function() {
 })
 
 radButton.addEventListener("click", function(){
-    if(LastCharacterOp()) {
-        if(minusOp)
+    if(LastCharacterOp() && invalidFormat === false) {
+        if(parseFloat(ioScreen.value) < 0)
         {
-            if(firstTime) {
+            if(!multyOp && !divOp && !plusOp && !minusOp && !modOp) {
                 ioScreen.value = "Invalid number format";
                 invalidFormat = true;
                 minusOp = false;
@@ -516,7 +519,7 @@ radButton.addEventListener("click", function(){
 
 powButton.addEventListener("click", function() {
         var number;
-        if(!multyOp && !divOp && !minusOp && !modOp && !plusOp && LastCharacterOp()) {
+        if(!multyOp && invalidFormat === false && !divOp && !minusOp && !modOp && !plusOp && LastCharacterOp()) {
             number = parseFloat(ioScreen.value);
             ioScreen.value = number * number;
             if(firstTime === true) {
@@ -533,7 +536,7 @@ powButton.addEventListener("click", function() {
 
 subButton.addEventListener("click", function() {
     var number;
-    if(!multyOp && !divOp && LastCharacterOp()) {
+    if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp()) {
         number = parseFloat(ioScreen.value);
         if(number === 0)
         {
@@ -575,7 +578,7 @@ subButton.addEventListener("click", function() {
 
 plusButton.addEventListener("click", function() {
     if(!(minusOp && firstTime)) {
-   if(plusOp === false && !minusOp && !multyOp && !divOp && !modOp) {
+   if(plusOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !minusOp && !multyOp && !divOp && !modOp) {
         var value;
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(input !== "+")
@@ -603,7 +606,7 @@ plusButton.addEventListener("click", function() {
 multyButton.addEventListener("click", function() {
     if(!(minusOp && firstTime)) {
         console.log(multyOp);
-    if(multyOp === false && !minusOp && !plusOp && !divOp && !modOp) {
+    if(multyOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !minusOp && !plusOp && !divOp && !modOp) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(divOp || modOp) {
             divOp = false;
@@ -632,7 +635,7 @@ multyButton.addEventListener("click", function() {
 })
 
 minusButton.addEventListener("click", function() {
-    if(!plusOp && !floatOp) {
+    if(!plusOp && invalidFormat === false && (!floatOp || floatOp && firstTime) && !minusOp) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(!multyOp && !divOp && !isNaN(ioScreen.value)) {
             total += parseFloat(ioScreen.value);
@@ -650,7 +653,7 @@ minusButton.addEventListener("click", function() {
                 inputText.value = inputText.value.substring(0,inputText.value.length - 1) + "-";
             }
             minusOp = true;
-        }
+       
    
     if(inputText.value === "-" && inputText.value.length === 1)
     {
@@ -659,11 +662,12 @@ minusButton.addEventListener("click", function() {
     else{
         firstTime = false;
         equalButton.classList.add("equalStyle");
-    }
+    } 
+}
 })
 
 divButton.addEventListener("click" ,function() {
-    if(!(minusOp && firstTime)) {
+    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && invalidFormat === false) {
     var input = inputText.value.substring(inputText.value.length-1,inputText.value.length); 
     if(divOp === false && !minusOp && !plusOp && !multyOp && !modOp) {
         if(multyOp || modOp) {
@@ -693,7 +697,7 @@ divButton.addEventListener("click" ,function() {
 })
 
 modButton.addEventListener("click", function(){
-    if(!(minusOp && firstTime)) {
+    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && invalidFormat === false) {
     var input = inputText.value.substring(inputText.value.length - 1, inputText.value.length);
     if(modOp === false && !minusOp && !plusOp && !divOp && !multyOp) {
         if(multyOp || divOp) {
