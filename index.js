@@ -46,61 +46,7 @@ function Equal()
     firstTime = FirstTime();
     if(plusOp || multyOp || divOp || modOp || minusOp || floatOp) {
         floatOp = false;
-    if((plusOp || minusOp) && (multyOp || divOp || modOp))
-    {
-        if(multyOp) {
-            total2 *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-            if(plusOp) {
-                total += total2;
-                plusOp = false;
-            }
-            else if(minusOp)
-            {
-                total += total2;
-                minusOp = false;
-            }
-        total2 = 0;
-        multyOp = false;
-        }
-        else if(divOp) {
-            var value = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-            if(value === 0){
-                invalidFormat = true;
-                ioScreen.value = "Cannot divide by zero";
-            }
-            else
-            {
-                total2 /= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-                if(plusOp) {
-                    total += total2;
-                    plusOp = false;
-                }
-                else if(minusOp)
-                {
-                    total += total2;
-                    minusOp = false;
-                }
-                divOp = false;
-                total2 = 0;
-            }  
-        }
-        else if(modOp)
-        {
-            total2 %= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-            if(plusOp) {
-                total += total2;
-                plusOp = false;
-            }
-            else if(minusOp)
-            {
-                total += total2;
-                minusOp = false;
-            }
-        modOp = false;
-        total2 = 0;
-        }
-    }
-    else if(plusOp) {
+    if(plusOp) {
         total += parseFloat(ioScreen.value);
         plusOp = false;
     }
@@ -166,14 +112,9 @@ function Equal()
 }
 }
 
-function IsOperation(input,a,b,c,d)
-{
-    return input === a || input === b || input === c || input === d;
-}
-
 function AddNumberCodition(input)
 {
-    return (plusOp || multyOp || minusOp || divOp || modOp || input === "0" || firstTime) && invalidFormat === false;
+    return (plusOp || multyOp || minusOp || divOp || modOp || input === "0" || firstTime) && invalidFormat === false && ioScreen.value.length < 15;
 }
 
 function LastCharacterOp()
@@ -383,15 +324,14 @@ floatButton.addEventListener("click", function() {
 })
 
 changerButton.addEventListener("click", function() {
-    console.log(invalidFormat);
-    if(invalidFormat == false && !multyOp && !divOp && !modOp && LastCharacterOp())
+    if(invalidFormat == false && LastCharacterOp())
     {
-        if(firstTime === false && !minusOp && !plusOp)
+        if(firstTime === false && !minusOp && !plusOp && !multyOp && !divOp && !modOp)
         {
             inputText.value = "negate(" + inputText.value + ")";
             ioScreen.value = parseFloat(ioScreen.value) * -1;
         }
-        else if(minusOp || plusOp)
+        else if(minusOp || plusOp || multyOp || divOp || modOp)
         {
             console.log("fdgfgf");
             const characters = inputText.value.split('');
@@ -399,15 +339,32 @@ changerButton.addEventListener("click", function() {
             {
                 if(characters[i] === "-")
                 {
-                    inputText.value = inputText.value.substring(0,i) + "+" + inputText.value.substring(i + 1, inputText.value.length);
+                    if(multyOp || divOp || modOp)
+                    {
+                        inputText.value = inputText.value.substring(0,i) + inputText.value.substring(i + 1, inputText.value.length);
+                    }
+                    else
+                        inputText.value = inputText.value.substring(0,i) + "+" + inputText.value.substring(i + 1, inputText.value.length);
                     i = -1;
                 }
                 else if(characters[i] === "+"){
                     inputText.value = inputText.value.substring(0,i) + "-" + inputText.value.substring(i + 1, inputText.value.length);
                     i = -1;
                 }
+                else if(characters[i] === "X" || characters[i] === "/" || characters[i] === "%")
+                {
+                    inputText.value = inputText.value.substring(0,i + 1) + "-" + inputText.value.substring(i + 1, inputText.value.length);
+                    i = -1;
+                }
             }
-            ioScreen.value = parseFloat(ioScreen.value) * -1;
+            var firstCharacter = ioScreen.value.substring(0,1);
+            if(firstCharacter === "X" || firstCharacter === "/" || firstCharacter === "%")
+            {
+                ioScreen.value = firstCharacter + parseFloat(ioScreen.value.substring(1,ioScreen.value.length)) * -1;
+            }
+            else {
+                ioScreen.value = parseFloat(ioScreen.value) * -1;
+            }
         }
         else
         {
@@ -531,7 +488,7 @@ clearScreenButon.addEventListener("click",function() {
 })
 
 radButton.addEventListener("click", function(){
-    if(LastCharacterOp() && invalidFormat === false) {
+    if(LastCharacterOp() && invalidFormat === false && inputText.value.length < 40) {
         if(parseFloat(ioScreen.value) < 0)
         {
             if(!multyOp && !divOp && !plusOp && !minusOp && !modOp) {
@@ -582,7 +539,7 @@ radButton.addEventListener("click", function(){
 
 powButton.addEventListener("click", function() {
         var number;
-        if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp()) {
+        if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp() && inputText.value.length < 40) {
             number = parseFloat(ioScreen.value);
             ioScreen.value = number * number;
             if(!plusOp && !multyOp && !minusOp && !divOp && !modOp && !firstTime)
@@ -620,7 +577,7 @@ powButton.addEventListener("click", function() {
 
 subButton.addEventListener("click", function() {
     var number;
-    if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp()) {
+    if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp() && inputText.value.length < 40) {
         number = parseFloat(ioScreen.value);
         if(number === 0)
         {
@@ -661,7 +618,7 @@ subButton.addEventListener("click", function() {
 
 plusButton.addEventListener("click", function() {
     if(!(minusOp && firstTime)) {
-   if(plusOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !minusOp && !multyOp && !divOp && !modOp) {
+   if(plusOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !minusOp && !multyOp && !divOp && !modOp && inputText.value.length < 40) {
         var value;
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(input !== "+")
@@ -683,17 +640,17 @@ plusButton.addEventListener("click", function() {
 
 multyButton.addEventListener("click", function() {
     if(!(minusOp && firstTime)) {
-    if(multyOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !divOp && !modOp) {
+    if(multyOp === false && (!floatOp || floatOp && firstTime) && !plusOp && !minusOp && invalidFormat === false && !divOp && !modOp && inputText.value.length < 40) {
         if(divOp || modOp) {
             divOp = false;
             modOp = false;
         }
         
-        if(plusOp || minusOp)
+        /*if(plusOp || minusOp)
         {
             total2 = parseFloat(ioScreen.value);
         }
-        else
+        else*/
              total += parseFloat(ioScreen.value);
         ioScreen.value = "X";
         if(plusOp || minusOp || firstTime)
@@ -708,7 +665,7 @@ multyButton.addEventListener("click", function() {
 })
 
 minusButton.addEventListener("click", function() {
-    if(!plusOp && invalidFormat === false && (!floatOp || floatOp && firstTime) && !minusOp) {
+    if(!plusOp && invalidFormat === false && (!floatOp || floatOp && firstTime) && !minusOp && inputText.value.length < 40) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(!multyOp && !divOp && !isNaN(ioScreen.value)) {
             total += parseFloat(ioScreen.value);
@@ -734,17 +691,17 @@ minusButton.addEventListener("click", function() {
 })
 
 divButton.addEventListener("click" ,function() {
-    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && invalidFormat === false) {
+    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && !plusOp && !minusOp && invalidFormat === false && inputText.value.length < 40) {
     if(divOp === false && !multyOp && !modOp) {
         if(multyOp || modOp) {
             multyOp = false;
             modOp = false;
         }
 
-        if(plusOp || minusOp) {
+        /*if(plusOp || minusOp) {
             total2 = parseFloat(ioScreen.value)
         }
-        else 
+        else */
             total += parseFloat(ioScreen.value);
         
         ioScreen.value = "/";
@@ -760,18 +717,18 @@ divButton.addEventListener("click" ,function() {
 })
 
 modButton.addEventListener("click", function(){
-    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && invalidFormat === false) {
+    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && !plusOp && !minusOp && invalidFormat === false && inputText.value.length < 40) {
     var input = inputText.value.substring(inputText.value.length - 1, inputText.value.length);
     if(modOp === false && !divOp && !multyOp) {
         if(multyOp || divOp) {
             multyOp = false;
             divOp = false;
         }
-        if(plusOp || minusOp)
+        /*if(plusOp || minusOp)
         {
             total2 = parseFloat(ioScreen.value);
         }
-        else
+        else*/
             total += parseFloat(ioScreen.value);
         ioScreen.value = "%";
         if(plusOp || minusOp || firstTime)
