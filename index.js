@@ -38,7 +38,23 @@ var modOp = false;
 var firstTime = true;
 var invalidFormat = false;
 var floatOp = false;
+//Get container with elements of main(div)
+var btnConatiner = document.getElementById("calculator");
 
+//Get elements with class name = "active"
+var btn = btnConatiner.getElementsByClassName("active");
+
+function Inactive()
+{
+    for(let i = 0 ; i < btn.length; i++)
+    {
+        if(btn[i].classList.contains("inactive"))
+            btn[i].classList.remove("inactive");
+        else{
+            btn[i].classList.add("inactive");
+        }
+    }
+}
 
 function Equal()
 {
@@ -76,6 +92,7 @@ function Equal()
             {
                 ioScreen.value = "Cannot divide by zero";
                 invalidFormat = true;
+                Inactive();
             }
             else {
                 total /= parseFloat(ioScreen.value);
@@ -87,6 +104,7 @@ function Equal()
             {
                 ioScreen.value = "Cannot divide by zero";
                 invalidFormat = true;
+                Inactive();
             }
             else {
                 total /= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
@@ -96,7 +114,17 @@ function Equal()
     }
     else if(modOp)
     {   
-        total = total % parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+        var value = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+        console.log(value);
+        if(value !== 0) {
+            console.log("ye");
+            total = total % value;
+        }
+        else{
+            invalidFormat = true;
+            ioScreen.value = "Cannot divide by zero";
+            Inactive();
+        }
         modOp = false;
     }
     else if(minusOp)
@@ -445,6 +473,8 @@ clearButton.addEventListener("click" ,function() {
     minusOp = false;
     divOp = false;
     modOp = false;
+    if(btn[0].classList.contains("inactive"))
+        Inactive();
     equalButton.classList.remove("equalStyle");
 })
 
@@ -495,6 +525,7 @@ radButton.addEventListener("click", function(){
                 ioScreen.value = "Invalid number format";
                 invalidFormat = true;
                 minusOp = false;
+                Inactive();
             }
             else if(!firstTime || multyOp || divOp){
                 ioScreen.value = -1 * Math.sqrt(parseFloat(ioScreen.value) * -1);
@@ -583,6 +614,7 @@ subButton.addEventListener("click", function() {
         {
             ioScreen.value = "Cannot divide by zero";
             invalidFormat = true;
+            Inactive();
         }
         else{
             var divided = 1 / number;
