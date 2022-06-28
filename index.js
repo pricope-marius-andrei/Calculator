@@ -28,6 +28,7 @@ const changerButton = document.getElementById("changerButton");
 const subButton = document.getElementById("subButton");
 const clearScreenButon = document.getElementById("clearScreenButton");
 
+var total2 = 0.0;
 var total = 0.0;
 var plusOp = false;
 var multyOp = false;
@@ -44,14 +45,68 @@ function Equal()
     if(LastCharacterOp()) {
     firstTime = FirstTime();
     if(plusOp || multyOp || divOp || modOp || minusOp || floatOp) {
-    floatOp = false;
-    if(plusOp) {
-        console.log("da");
+        floatOp = false;
+    if((plusOp || minusOp) && (multyOp || divOp || modOp))
+    {
+        if(multyOp) {
+            total2 *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+            if(plusOp) {
+                total += total2;
+                plusOp = false;
+            }
+            else if(minusOp)
+            {
+                total += total2;
+                minusOp = false;
+            }
+        total2 = 0;
+        multyOp = false;
+        }
+        else if(divOp) {
+            var value = parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+            if(value === 0){
+                invalidFormat = true;
+                ioScreen.value = "Cannot divide by zero";
+            }
+            else
+            {
+                total2 /= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+                if(plusOp) {
+                    total += total2;
+                    plusOp = false;
+                }
+                else if(minusOp)
+                {
+                    total += total2;
+                    minusOp = false;
+                }
+                divOp = false;
+                total2 = 0;
+            }  
+        }
+        else if(modOp)
+        {
+            total2 %= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+            if(plusOp) {
+                total += total2;
+                plusOp = false;
+            }
+            else if(minusOp)
+            {
+                total += total2;
+                minusOp = false;
+            }
+        modOp = false;
+        total2 = 0;
+        }
+    }
+    else if(plusOp) {
         total += parseFloat(ioScreen.value);
         plusOp = false;
     }
     else if(multyOp)
     {
+        console.log("da");
         if(minusOp && ioScreen.value.substring(0,1) !== "X")
         {
             total *= parseFloat(ioScreen.value);
@@ -503,7 +558,7 @@ radButton.addEventListener("click", function(){
                 ioScreen.value = Math.sqrt(parseFloat(ioScreen.value));
             }
         }
-        if(!minusOp && !plusOp && !modOp && !divOp) {
+        if(!minusOp && !plusOp && !modOp && !divOp && !multyOp) {
             inputText.value = "rad(" + inputText.value + ")";
             firstTime = false;
         }
@@ -597,6 +652,7 @@ plusButton.addEventListener("click", function() {
             
         }
         total += value;
+        console.log(total);
         equalButton.classList.add("equalStyle");
         firstTime = false;
         plusOp = true;
@@ -607,20 +663,20 @@ plusButton.addEventListener("click", function() {
 
 multyButton.addEventListener("click", function() {
     if(!(minusOp && firstTime)) {
-    if(multyOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !minusOp && !plusOp && !divOp && !modOp) {
-        var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
+    if(multyOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !divOp && !modOp) {
         if(divOp || modOp) {
             divOp = false;
             modOp = false;
         }
-
-            if(ioScreen.value.substring(0,1) === "X")
-                total *= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
-            else {
-                total += parseFloat(ioScreen.value);
-            }
-            ioScreen.value = "X";
-            if(firstTime)
+        
+        if(plusOp || minusOp)
+        {
+            total2 = parseFloat(ioScreen.value);
+        }
+        else
+             total += parseFloat(ioScreen.value);
+        ioScreen.value = "X";
+        if(plusOp || minusOp || firstTime)
                 inputText.value += "X";
             else{
                 inputText.value = "(" + inputText.value + ")X";
@@ -659,23 +715,24 @@ minusButton.addEventListener("click", function() {
 
 divButton.addEventListener("click" ,function() {
     if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && invalidFormat === false) {
-    var input = inputText.value.substring(inputText.value.length-1,inputText.value.length); 
-    if(divOp === false && !minusOp && !plusOp && !multyOp && !modOp) {
+    if(divOp === false && !multyOp && !modOp) {
         if(multyOp || modOp) {
             multyOp = false;
             modOp = false;
         }
 
-        if(ioScreen.value.substring(0,1) === "/")
-            total /= parseFloat(ioScreen.value.substring(1,ioScreen.value.length));
+        if(plusOp || minusOp) {
+            total2 = parseFloat(ioScreen.value)
+        }
         else 
             total += parseFloat(ioScreen.value);
+        
         ioScreen.value = "/";
-            if(firstTime)
-                inputText.value += "/";
-            else{
-                inputText.value = "(" + inputText.value + ")/";
-            }
+        if(plusOp || minusOp || firstTime)
+            inputText.value += "/";
+        else{
+            inputText.value = "(" + inputText.value + ")/";
+        }
         divOp = true;
         equalButton.classList.add("equalStyle");
     }
@@ -685,14 +742,23 @@ divButton.addEventListener("click" ,function() {
 modButton.addEventListener("click", function(){
     if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && invalidFormat === false) {
     var input = inputText.value.substring(inputText.value.length - 1, inputText.value.length);
-    if(modOp === false && !minusOp && !plusOp && !divOp && !multyOp) {
+    if(modOp === false && !divOp && !multyOp) {
         if(multyOp || divOp) {
             multyOp = false;
             divOp = false;
         }
-        total += parseFloat(ioScreen.value);
+        if(plusOp || minusOp)
+        {
+            total2 = parseFloat(ioScreen.value);
+        }
+        else
+            total += parseFloat(ioScreen.value);
         ioScreen.value = "%";
-        inputText.value += "%";
+        if(plusOp || minusOp || firstTime)
+                inputText.value += "%";
+            else{
+                inputText.value = "(" + inputText.value + ")%";
+            }
         }
         modOp = true;
         equalButton.classList.add("equalStyle");
