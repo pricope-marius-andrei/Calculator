@@ -582,18 +582,39 @@ radButton.addEventListener("click", function(){
 
 powButton.addEventListener("click", function() {
         var number;
-        if(!multyOp && invalidFormat === false && !divOp && !minusOp && !modOp && !plusOp && LastCharacterOp()) {
+        if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp()) {
             number = parseFloat(ioScreen.value);
             ioScreen.value = number * number;
-            if(firstTime === true) {
-                inputText.value = inputText.value + "^2";
-            }
-            else {
+            if(!plusOp && !multyOp && !minusOp && !divOp && !modOp && !firstTime)
+            {
                 inputText.value = "(" + inputText.value + ")^2";
             }
+            else if(firstTime) {
+                if(number > 0) {
+                    inputText.value =  number + "^2";
+                }
+                else{
+                    inputText.value = inputText.value.substring(0,inputText.value.length-1);
+                    inputText.value += "+";
+                    inputText.value = number * -1 + "^2";
+                }
+            }
+            else {
+                while(LastCharacterOp())
+                {
+                    inputText.value = inputText.value.substring(0,inputText.value.length - 1);
+                }
+                if(number > 0) {
+                    inputText.value = inputText.value + number + "^2";
+                }
+                else {
+                    inputText.value = inputText.value.substring(0,inputText.value.length-1);
+                    inputText.value += "+";
+                    inputText.value = inputText.value + number * -1 + "^2";
+                }
+            }
+            firstTime = false;
         }
-
-        firstTime = false;
         
 })
 
@@ -634,9 +655,8 @@ subButton.addEventListener("click", function() {
                 }
             }
         }
+        firstTime = false;
     }
-
-    firstTime = false;
 })
 
 plusButton.addEventListener("click", function() {
