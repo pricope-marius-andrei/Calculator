@@ -114,7 +114,7 @@ function Equal()
 
 function AddNumberCodition(input)
 {
-    return (plusOp || multyOp || minusOp || divOp || modOp || input === "0" || firstTime) && invalidFormat === false;
+    return (plusOp || multyOp || minusOp || divOp || modOp || input === "0" || firstTime) && invalidFormat === false && ioScreen.value.length < 15;
 }
 
 function LastCharacterOp()
@@ -488,7 +488,7 @@ clearScreenButon.addEventListener("click",function() {
 })
 
 radButton.addEventListener("click", function(){
-    if(LastCharacterOp() && invalidFormat === false) {
+    if(LastCharacterOp() && invalidFormat === false && inputText.value.length < 40) {
         if(parseFloat(ioScreen.value) < 0)
         {
             if(!multyOp && !divOp && !plusOp && !minusOp && !modOp) {
@@ -539,7 +539,7 @@ radButton.addEventListener("click", function(){
 
 powButton.addEventListener("click", function() {
         var number;
-        if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp()) {
+        if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp() && inputText.value.length < 40) {
             number = parseFloat(ioScreen.value);
             ioScreen.value = number * number;
             if(!plusOp && !multyOp && !minusOp && !divOp && !modOp && !firstTime)
@@ -577,7 +577,7 @@ powButton.addEventListener("click", function() {
 
 subButton.addEventListener("click", function() {
     var number;
-    if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp()) {
+    if(!multyOp && invalidFormat === false && !divOp && LastCharacterOp() && inputText.value.length < 40) {
         number = parseFloat(ioScreen.value);
         if(number === 0)
         {
@@ -618,7 +618,7 @@ subButton.addEventListener("click", function() {
 
 plusButton.addEventListener("click", function() {
     if(!(minusOp && firstTime)) {
-   if(plusOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !minusOp && !multyOp && !divOp && !modOp) {
+   if(plusOp === false && (!floatOp || floatOp && firstTime) && invalidFormat === false && !minusOp && !multyOp && !divOp && !modOp && inputText.value.length < 40) {
         var value;
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(input !== "+")
@@ -640,7 +640,7 @@ plusButton.addEventListener("click", function() {
 
 multyButton.addEventListener("click", function() {
     if(!(minusOp && firstTime)) {
-    if(multyOp === false && (!floatOp || floatOp && firstTime) && !plusOp && !minusOp && invalidFormat === false && !divOp && !modOp) {
+    if(multyOp === false && (!floatOp || floatOp && firstTime) && !plusOp && !minusOp && invalidFormat === false && !divOp && !modOp && inputText.value.length < 40) {
         if(divOp || modOp) {
             divOp = false;
             modOp = false;
@@ -665,7 +665,7 @@ multyButton.addEventListener("click", function() {
 })
 
 minusButton.addEventListener("click", function() {
-    if(!plusOp && invalidFormat === false && (!floatOp || floatOp && firstTime) && !minusOp) {
+    if(!plusOp && invalidFormat === false && (!floatOp || floatOp && firstTime) && !minusOp && inputText.value.length < 40) {
         var input = inputText.value.substring(inputText.value.length-1,inputText.value.length);
         if(!multyOp && !divOp && !isNaN(ioScreen.value)) {
             total += parseFloat(ioScreen.value);
@@ -691,7 +691,7 @@ minusButton.addEventListener("click", function() {
 })
 
 divButton.addEventListener("click" ,function() {
-    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && !plusOp && !minusOp && invalidFormat === false) {
+    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && !plusOp && !minusOp && invalidFormat === false && inputText.value.length < 40) {
     if(divOp === false && !multyOp && !modOp) {
         if(multyOp || modOp) {
             multyOp = false;
@@ -717,7 +717,7 @@ divButton.addEventListener("click" ,function() {
 })
 
 modButton.addEventListener("click", function(){
-    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && !plusOp && !minusOp && invalidFormat === false) {
+    if(!(minusOp && firstTime) && (!floatOp || floatOp && firstTime) && !plusOp && !minusOp && invalidFormat === false && inputText.value.length < 40) {
     var input = inputText.value.substring(inputText.value.length - 1, inputText.value.length);
     if(modOp === false && !divOp && !multyOp) {
         if(multyOp || divOp) {
