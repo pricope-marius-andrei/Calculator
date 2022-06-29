@@ -1,8 +1,9 @@
-
 body {
     background-image: linear-gradient(to bottom right, rgb(0, 0, 140), rgb(6, 4, 39)); 
     height: 100vh;
     background-repeat: no-repeat;
+    max-width: 501px; 
+    min-width: 500px;
 }
 
 #display input{
@@ -15,11 +16,12 @@ body {
 }
 
 #input {
+    font-family: 'Nunito', sans-serif;
     font-size: 0.9em;
 }
 
 #screen{
-    font-size: 1.9rem;
+    font-size: 1.75rem;
 }
 
 
@@ -27,7 +29,7 @@ body {
 button {
     position: relative;
     background-image:  linear-gradient(to bottom right,rgb(244, 242, 245),rgb(244, 244, 244));
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Nunito', sans-serif;
     width: 80px;
     height: 50px;
     border: 0ch;
@@ -37,7 +39,7 @@ button {
 
 
 button:hover{
-    background-image:linear-gradient(to bottom right,rgb(238, 238, 238),rgb(237, 233, 243));
+    background-image:linear-gradient(to bottom right,rgb(232, 232, 232),rgb(221, 216, 228));
 }
 
 .deleteStyle {
@@ -62,7 +64,7 @@ input {
     background-image: linear-gradient(to bottom right,rgba(250, 250, 250, 0.879),#ddddddfa,rgba(249, 249, 249, 0.827)) ;
     padding: 20px;
     margin-top: 5%;
-    margin-left: 25%;
+    margin-left: 5%;
     border-radius: 1.2em;
     text-align: center;
 }
